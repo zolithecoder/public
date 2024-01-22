@@ -1,0 +1,97 @@
+/* Body styles */
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f5f5f5;
+	margin: 0;
+	padding: 0;
+  }
+
+  /* Music player container styles */
+  .music-player {
+	max-width: 400px;
+	margin: 50px auto;
+	text-align: center;
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+  }
+
+  /* Control bar styles */
+  .controls {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 20px;
+  }
+
+  /* Play/Pause button styles */
+  button {
+	padding: 10px 20px;
+	font-size: 16px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+	background-color: #ddd;
+  }
+
+  /* Seek slider styles */
+  input[type="range"] {
+	width: 300px;
+	margin: 0 10px;
+	height: 5px;
+	border-radius: 5px;
+	background-color: #ddd;
+	outline: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background-color: #555;
+	cursor: pointer;
+  }
+
+  /* Time display styles */
+  .time {
+	margin: 0 5px;
+	font-size: 14px;
+	color: #555;
+  }
+
+
+  /* Existing styles... */
+
+.dark-mode {
+	background-color: #1f1f1f;
+	color: #fff;
+  }
+
+  .dark-mode-toggle {
+	position: fixed;
+	bottom: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+  }
+
+  .dark-mode-toggle button {
+	padding: 8px 16px;
+	font-size: 14px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	background-color: #fff;
+	color: #333;
+	transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .dark-mode-toggle button:hover {
+	background-color: #ddd;
+  }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Music Player</title>
+  <link rel="stylesheet" href="plan.css">
+</head>
+<div class="music-player">
+    <audio id="audio" src="WIND ROSE - Wintersaga (Official Lyric Video)  Napalm Records.mp3" preload="auto"></audio>
+    <div class="controls">
+      <button id="playPauseBtn" class="play">Play</button>
+      <button id="skipForwardBtn">>></button>
+      <input type="range" id="seekSlider" min="0" step="1" value="0">
+      <span id="currentTime" class="time">00:00</span>
+      <span id="duration" class="time">00:00</span>
+    </div>
+  </div>
+  <div class="dark-mode-toggle">
+    <button id="darkModeToggle">Dark Mode</button>
+  </div>
+  <script src="plan.js"></script>
+</body>
+</html>
