@@ -1,0 +1,32 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    cursor: url('fefg3.png'), auto;
+    background: repeat-y bottom center fixed url('ff2.jpg');
+    background-size: cover;
+}
+
+#spaceship {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: white;
+}
+
+.bullet {
+    position: absolute;
+    width: 5px;
+    height: 10px;
+    background-color: red;
+}
+
+.meteor {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-image: url('meteor-shower.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
