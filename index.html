@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTVONAL</title>
+    <!-- Firebase konfiguráció betöltése -->
+    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <h1>Útvonal_rögzítése:</h1>
+    <form id="routeForm">
+        <!-- Űrlapmezők -->
+        <label for="date">Dátum és idő:</label>
+        <input type="datetime-local" id="date" name="date" required><br><br>
+
+        <label for="from">Honnan:</label>
+        <input type="text" id="from" name="from" required><br><br>
+
+        <label for="to">Hová:</label>
+        <input type="text" id="to" name="to" required><br><br>
+
+        <label for="partner">Partner neve:</label>
+        <input type="text" id="partner" name="partner" required><br><br>
+
+        <label for="distance">Megtett km:</label>
+        <input type="number" id="distance" name="distance" required><br><br>
+
+        <!-- Mentés gomb -->
+        <input type="submit" value="Mentés">
+    </form>
+
+    <h2>Útvonalak</h2>
+    <ul id="routeList"></ul>
+
+    <script>
+        // Firebase alkalmazás inicializálása
+        const firebaseConfig = {
+            // Firebase konfigurációs objektum
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        // Firestore inicializálása
+        const db = firebase.firestore();
+
+        // Ha az alkalmazás inicializálva lett, akkor folytathatjuk a Firestore műveleteket
+        firebase.app().then(() => {
+            // Útvonalak lekérdezése és listázása
+            db.collection('routes').get().then((querySnapshot) => {
+                const routeList = document.getElementById('routeList');
+
+                querySnapshot.forEach((doc) => {
+                    const routeData = doc.data();
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${routeData.date}: ${routeData.from} - ${routeData.to}, Partner: ${routeData.partner}, Megtett km: ${routeData.distance}`;
+                    routeList.appendChild(listItem);
+                });
+            }).catch((error) => {
+                console.error('Hiba történt az útvonalak lekérdezése közben:', error);
+            });
+
+            // Összesítés kiszámítása
+            db.collection('routes').get().then((querySnapshot) => {
+                let totalDistance = 0;
+                let totalFuel = 0;
+
+                querySnapshot.forEach((doc) => {
+                    const routeData = doc.data();
+                    totalDistance += routeData.distance;
+                    // Itt felhasználható lenne a megtett km és az üzemanyagfogyasztás alapján egy becslés a felhasznált üzemanyag mennyiségéről
+                    // Jelenleg nincs ilyen adat az adatmodellben, így csak a megtett km-ek összege kerül megjelenítésre
+                });
+
+                document.getElementById('totalDistance').textContent = totalDistance;
+                // Ha lenne adat az üzemanyagfogyasztásról, akkor itt kellene kiszámolni és megjeleníteni
+                // document.getElementById('totalFuel').textContent = totalFuel;
+            }).catch((error) => {
+                console.error('Hiba történt az összesítés kiszámítása közben:', error);
+            });
+        }).catch((error) => {
+            console.error('Hiba történt az alkalmazás inicializálása közben:', error);
+        });
+
+
+        document.getElementById('routeForm').addEventListener('submit', (e) => {
+    e.preventDefault(); // Megakadályozza az alapértelmezett űrlap elküldését
+
+    const formData = new FormData(e.target); // Űrlapadatok lekérése
+
+    // Útvonal mentése a Firestore-ban
+    db.collection('routes').add({
+        date: formData.get('date'),
+        from: formData.get('from'),
+        to: formData.get('to'),
+        partner: formData.get('partner'),
+        distance: parseInt(formData.get('distance')) // Konvertálás számra
+    })
+    .then(() => {
+        console.log('Az útvonal sikeresen mentve.');
+    })
+    .catch((error) => {
+        console.error('Hiba történt az útvonal mentése közben:', error);
+    });
+
+    // Frissítsd az útvonalak listáját, hogy az új adatok megjelenjenek azonnal
+    refreshRouteList();
+});
+
+
+function refreshRouteList() {
+    const routeList = document.getElementById('routeList');
+    routeList.innerHTML = ''; // Törölje az összes elemet a listából
+
+    // Útvonalak lekérdezése és listázása
+    db.collection('routes').get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            const routeData = doc.data();
+            const listItem = document.createElement('li');
+            listItem.textContent = `${routeData.date}: ${routeData.from} - ${routeData.to}, Partner: ${routeData.partner}, Megtett km: ${routeData.distance}`;
+            routeList.appendChild(listItem);
+        });
+    }).catch((error) => {
+        console.error('Hiba történt az útvonalak lekérdezése közben:', error);
+    });
+}
+
+// Az alkalmazás inicializálása
+        firebase.initializeApp(firebaseConfig)
+        .then(() => {
+            console.log('Firebase inicializálva.');
+            refreshRouteList(); // Frissítsd az útvonalak listáját az alkalmazás inicializálásakor
+        })
+        .catch((error) => {
+            console.error('Hiba történt az alkalmazás inicializálása közben:', error);
+        });
+
+    </script>
+
+
+    <script src="your-firebase-config.js"></script>
+</body>
+</html>
